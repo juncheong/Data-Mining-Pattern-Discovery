@@ -10,11 +10,6 @@ public class Main {
     public static void main(String[] args) {
         try {
             Scanner environmentVariables = new Scanner(Paths.get("env"));
-            Scanner adherence = new Scanner(Paths.get("data/adherence.txt"));
-            Scanner allLog = new Scanner(Paths.get("data/all-log.txt"));
-            Scanner behavior = new Scanner(Paths.get("data/behavior.txt"));
-            Scanner selectedLog = new Scanner(Paths.get("data/selected-log.txt"));
-            Scanner selfEfficacy = new Scanner(Paths.get("data/self-efficacy.txt"));
             
             env = loadEnvVar(environmentVariables);
             environmentVariables.close();
@@ -22,13 +17,7 @@ public class Main {
             Database database = new Database(env.get("DB_HOST"), env.get("DB_USERNAME"), 
                                             env.get("DB_PASSWORD"), env.get("DB_PORT"), 
                                             env.get("DB_NAME"));
-            
-            //database.uploadDataSets(adherence, allLog, behavior, selectedLog, selfEfficacy);
-            adherence.close();
-            allLog.close();
-            behavior.close();
-            selectedLog.close();
-            selfEfficacy.close();
+            //uploadDataSets(database);
             
         } catch(IOException e){
             System.out.println(e);
@@ -44,6 +33,25 @@ public class Main {
         }
         
         return hashMap;
+    }
+    
+    private static void uploadDataSets(Database database){
+        try {
+            Scanner adherence = new Scanner(Paths.get("data/adherence.txt"));
+            Scanner allLog = new Scanner(Paths.get("data/all-log.txt"));
+            Scanner behavior = new Scanner(Paths.get("data/behavior.txt"));
+            Scanner selectedLog = new Scanner(Paths.get("data/selected-log.txt"));
+            Scanner selfEfficacy = new Scanner(Paths.get("data/self-efficacy-revised.txt"));
+            
+            database.uploadDataSets(adherence, allLog, behavior, selectedLog, selfEfficacy);
+            adherence.close();
+            allLog.close();
+            behavior.close();
+            selectedLog.close();
+            selfEfficacy.close();
+        } catch(IOException e){
+            System.out.println(e);
+        }
     }
 
 }

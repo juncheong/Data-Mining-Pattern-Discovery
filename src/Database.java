@@ -82,7 +82,6 @@ public class Database {
                             description.append(" ");
                     }
                     query.append(description + "'");
-                    
                 }
                 
                 query.append(");");
@@ -161,7 +160,6 @@ public class Database {
                 
                 query.append(");");
                 statement.executeUpdate(query.toString());
-                System.out.println(query.toString());
             } catch (SQLException e){
                 System.out.println(e);
             }
