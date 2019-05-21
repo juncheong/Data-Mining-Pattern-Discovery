@@ -1,0 +1,7 @@
+***** RESULTS FOR BEHAVIOR SCORES *****
+
+Number of responses: 27
+Average motivation: 0.46678059615185186
+Average intention: 0.6538507024925925
+Average attitude: 0.6609736316370372
+Average ownership: 0.7476923888851851

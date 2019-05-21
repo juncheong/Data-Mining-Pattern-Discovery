@@ -1,5 +1,9 @@
 package edu.cuny.qc.cs.dataminingfinal;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.io.FileOutputStream;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -8,6 +12,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 import edu.cuny.qc.cs.dataminingfinal.models.BehaviorScore;
+import edu.cuny.qc.cs.dataminingfinal.statistics.BehaviorScoreStats;
 
 public class Main {
     public static Map<String, String> env;
@@ -22,18 +27,26 @@ public class Main {
             Database database = new Database(env.get("DB_HOST"), env.get("DB_USERNAME"), 
                                             env.get("DB_PASSWORD"), env.get("DB_PORT"), 
                                             env.get("DB_NAME"));
+            
+            Writer behaviorScoreStatsWriter = new BufferedWriter((new OutputStreamWriter(
+                    new FileOutputStream("results/behaviorScoreStats.txt"), "utf-8")));
+            
             try {
                 database.establishConnection();
                 //uploadDataSets(database);
                 
                 ArrayList<BehaviorScore> behaviorScores = database.getAllBehaviorScores();
+                BehaviorScoreStats behaviorScoreStats = new BehaviorScoreStats(behaviorScores);
+                behaviorScoreStats.printResults(behaviorScoreStatsWriter);
+                
+                
                 
                 database.closeConnection();
             } catch (SQLException e){
                 System.out.println(e);
             }
             
-            
+            behaviorScoreStatsWriter.close();
         } catch(IOException e){
             System.out.println(e);
         }

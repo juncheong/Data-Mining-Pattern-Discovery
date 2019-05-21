@@ -15,23 +15,25 @@ public class BehaviorScore {
         this.ownership = ownership;
     }
 
-    public synchronized String getId() {
+    public String getId() {
         return id;
     }
 
-    public synchronized double getMotivation() {
+    public double getMotivation() {
         return motivation;
     }
 
-    public synchronized double getIntention() {
+    public double getIntention() {
         return intention;
     }
 
-    public synchronized double getAttitude() {
+    public double getAttitude() {
         return attitude;
     }
 
-    public synchronized double getOwnership() {
+    public double getOwnership() {
         return ownership;
     }
+
+    
 }
