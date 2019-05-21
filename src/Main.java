@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -17,7 +18,16 @@ public class Main {
             Database database = new Database(env.get("DB_HOST"), env.get("DB_USERNAME"), 
                                             env.get("DB_PASSWORD"), env.get("DB_PORT"), 
                                             env.get("DB_NAME"));
-            //uploadDataSets(database);
+            try {
+                database.establishConnection();
+                //uploadDataSets(database);
+                
+                
+                database.closeConnection();
+            } catch (SQLException e){
+                System.out.println(e);
+            }
+            
             
         } catch(IOException e){
             System.out.println(e);

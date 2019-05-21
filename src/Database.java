@@ -12,6 +12,7 @@ public class Database {
     private String DB_PORT;
     private String DB_NAME;
     private String JDBC_URL;
+    Connection connection;
     
     public Database(String dB_HOST, String dB_USERNAME, String dB_PASSWORD, String dB_PORT, String dB_NAME) {
         DB_HOST = dB_HOST;
@@ -21,11 +22,18 @@ public class Database {
         DB_NAME = dB_NAME;
         JDBC_URL = "jdbc:mysql://" + dB_HOST + ":" + dB_PORT + "/" + dB_NAME;
     }
+    
+    public void establishConnection() throws SQLException {
+        connection = DriverManager.getConnection(JDBC_URL, DB_USERNAME, DB_PASSWORD);
+    }
+    
+    public void closeConnection() throws SQLException {
+        connection.close();
+    }
 
     public void uploadDataSets(Scanner adherence, Scanner allLog, Scanner behavior, Scanner selectedLog, Scanner selfEfficacy){
         try {
-            
-            Connection connection = DriverManager.getConnection(JDBC_URL, DB_USERNAME, DB_PASSWORD);
+
             Statement statement = connection.createStatement();
             
             uploadAdherence(adherence, statement);
@@ -33,7 +41,6 @@ public class Database {
             uploadBehavior(behavior, statement);
             uploadSelectedLog(selectedLog, statement);
             uploadSelfEfficacy(selfEfficacy, statement);
-            
         } catch (SQLException e){
             System.out.println(e);
         }
