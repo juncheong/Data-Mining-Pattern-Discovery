@@ -1,9 +1,13 @@
+package edu.cuny.qc.cs.dataminingfinal;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+
+import edu.cuny.qc.cs.dataminingfinal.models.BehaviorScore;
 
 public class Main {
     public static Map<String, String> env;
@@ -22,6 +26,7 @@ public class Main {
                 database.establishConnection();
                 //uploadDataSets(database);
                 
+                ArrayList<BehaviorScore> behaviorScores = database.getAllBehaviorScores();
                 
                 database.closeConnection();
             } catch (SQLException e){

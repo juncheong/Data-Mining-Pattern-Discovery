@@ -1,8 +1,13 @@
+package edu.cuny.qc.cs.dataminingfinal;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Scanner;
+
+import edu.cuny.qc.cs.dataminingfinal.models.BehaviorScore;
 
 public class Database {
 
@@ -30,10 +35,32 @@ public class Database {
     public void closeConnection() throws SQLException {
         connection.close();
     }
+    
+    public ArrayList<BehaviorScore> getAllBehaviorScores() throws SQLException{
+        
+        ArrayList<BehaviorScore> behaviorScores = new ArrayList<BehaviorScore>();
+
+        Statement statement = connection.createStatement();
+        String query = "SELECT * FROM behavior_score";
+        ResultSet result = statement.executeQuery(query);       
+        
+        
+        while (result.next()){
+            String id = result.getString("id");
+            double motivation = result.getDouble("motivation");
+            double intention = result.getDouble("intention");
+            double attitude = result.getDouble("attitude");
+            double ownership = result.getDouble("ownership");
+            
+            BehaviorScore behaviorScore = new BehaviorScore(id, motivation, intention, attitude, ownership);
+            behaviorScores.add(behaviorScore);
+        }
+
+        return behaviorScores;
+    }
 
     public void uploadDataSets(Scanner adherence, Scanner allLog, Scanner behavior, Scanner selectedLog, Scanner selfEfficacy){
         try {
-
             Statement statement = connection.createStatement();
             
             uploadAdherence(adherence, statement);
