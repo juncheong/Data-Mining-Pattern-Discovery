@@ -12,7 +12,9 @@ import java.util.Map;
 import java.util.Scanner;
 
 import edu.cuny.qc.cs.dataminingfinal.models.BehaviorScore;
+import edu.cuny.qc.cs.dataminingfinal.models.SelectedLog;
 import edu.cuny.qc.cs.dataminingfinal.statistics.BehaviorScoreStats;
+import edu.cuny.qc.cs.dataminingfinal.statistics.SelectedLogStats;
 
 public class Main {
     public static Map<String, String> env;
@@ -39,6 +41,9 @@ public class Main {
                 BehaviorScoreStats behaviorScoreStats = new BehaviorScoreStats(behaviorScores);
                 behaviorScoreStats.printResults(behaviorScoreStatsWriter);
                 
+                ArrayList<SelectedLog> selectedLogs = database.getAllSelectedLogs();
+                SelectedLogStats selectedLogStats = new SelectedLogStats(selectedLogs);
+                selectedLogStats.printResults();
                 
                 
                 database.closeConnection();

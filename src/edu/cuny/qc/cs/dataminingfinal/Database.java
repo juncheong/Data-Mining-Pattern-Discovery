@@ -1,12 +1,15 @@
 package edu.cuny.qc.cs.dataminingfinal;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import edu.cuny.qc.cs.dataminingfinal.models.SelectedLog;
 import edu.cuny.qc.cs.dataminingfinal.models.BehaviorScore;
 
 public class Database {
@@ -57,6 +60,27 @@ public class Database {
         }
 
         return behaviorScores;
+    }
+    
+    public ArrayList<SelectedLog> getAllSelectedLogs() throws SQLException{
+        
+        ArrayList<SelectedLog> selectedLogs = new ArrayList<SelectedLog>();
+        
+        Statement statement = connection.createStatement();
+        String query = "SELECT * FROM selected_log;";
+        ResultSet result = statement.executeQuery(query);
+        
+        while (result.next()){
+            String memberId = result.getString("memberId");
+            String participantId = result.getString("participantId");
+            Timestamp time = result.getTimestamp("time");
+            String description = result.getString("description");
+            
+            SelectedLog log = new SelectedLog(memberId, participantId, time, description);
+            selectedLogs.add(log);
+        }
+        
+        return selectedLogs;
     }
 
     public void uploadDataSets(Scanner adherence, Scanner allLog, Scanner behavior, Scanner selectedLog, Scanner selfEfficacy){
