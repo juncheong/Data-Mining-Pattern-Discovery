@@ -10,16 +10,17 @@ Average ownership: 0.7476923888851851
 
 ***** Chi-Squared for motivation, intention, attitude, ownership*****
 
-Null hypothesis: The probability of someone getting a very low, low, medium, high, or very high score are equilikely
-Alt hypothesis: The probability of someone getting a very low, low, medium, high, or very high score are not equilikely
+Null hypothesis: The probability of someone getting a very low, low, medium, high, or very high score is equilikely
+Alt hypothesis: The probability of someone getting a very low, low, medium, high, or very high score is not equilikely
 
-5-way distribution of scores (very-low, lowm, medium, high, very-high)
+5-way distribution of scores (very-low, low, medium, high, very-high)
 0 <= x < 0.2, 0.2 <= x < 0.4, 0.4 <= x < 0.6, 0.6 <= x < 0.8, 0.8 <= x < 1.0
 These divions were chosen arbitrarily. Should there be more time and/or data, the data can be divided further
 
-alpha: 0.05
-degrees of freedom: 4
+Alpha: 0.05
+Degrees of freedom: 4
 Critical value: 9.49
+Expected value used: 27/5 = 5.4 
 
 Motivation scores
 4 9 7 3 4 
@@ -35,7 +36,7 @@ Intention Chi-Sq: 17.259259259259256
 Attitude Chi-Sq: 25.037037037037035
 Ownership Chi-Sq: 20.962962962962962
 
-Because the chi-squared value for motivation was NOT > the critical, we can reject the null hypothesis
+Because the chi-squared value for motivation was NOT > the critical, we cannot reject the null hypothesis
 Because the chi-squared value for intention was > the critical, we can reject the null hypothesis
 Because the chi-squared value for attitude was > the critical, we can reject the null hypothesis
 Because the chi-squared value for ownership was > the critical, we can reject the null hypothesis

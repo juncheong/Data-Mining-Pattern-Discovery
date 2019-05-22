@@ -19,7 +19,6 @@ public class BehaviorScoreStats {
     int singleVarDf = 4;
     double singleVarCrit = 9.49;
 
-
     int[] motivationSpread = {0, 0, 0, 0, 0};
     int[] intentionSpread = {0, 0, 0, 0, 0};
     int[] attitudeSpread = {0, 0, 0, 0, 0};
@@ -256,16 +255,17 @@ public class BehaviorScoreStats {
         
         output.write("***** Chi-Squared for motivation, intention, attitude, ownership*****\n\n");
         
-        output.write("Null hypothesis: The probability of someone getting a very low, low, medium, high, or very high score are equilikely\n");
-        output.write("Alt hypothesis: The probability of someone getting a very low, low, medium, high, or very high score are not equilikely\n");
+        output.write("Null hypothesis: The probability of someone getting a very low, low, medium, high, or very high score is equilikely\n");
+        output.write("Alt hypothesis: The probability of someone getting a very low, low, medium, high, or very high score is not equilikely\n");
         output.write("\n");
-        output.write("5-way distribution of scores (very-low, lowm, medium, high, very-high)\n");
+        output.write("5-way distribution of scores (very-low, low, medium, high, very-high)\n");
         output.write("0 <= x < 0.2, 0.2 <= x < 0.4, 0.4 <= x < 0.6, 0.6 <= x < 0.8, 0.8 <= x < 1.0\n");
         output.write("These divions were chosen arbitrarily. Should there be more time and/or data, the data can be divided further\n\n");
 
-        output.write("alpha: " + alpha + "\n");
-        output.write("degrees of freedom: " + singleVarDf + "\n");
-        output.write("Critical value: " + singleVarCrit + "\n\n");
+        output.write("Alpha: " + alpha + "\n");
+        output.write("Degrees of freedom: " + singleVarDf + "\n");
+        output.write("Critical value: " + singleVarCrit + "\n");
+        output.write("Expected value used: 27/5 = 5.4 \n\n");
         
         output.write("Motivation scores\n");
         for (int i = 0; i < 5; i++){
@@ -302,25 +302,25 @@ public class BehaviorScoreStats {
             output.write("Because the chi-squared value for motivation was > the critical, we can reject the null hypothesis\n");
         }
         else {
-            output.write("Because the chi-squared value for motivation was NOT > the critical, we can reject the null hypothesis\n");
+            output.write("Because the chi-squared value for motivation was NOT > the critical, we cannot reject the null hypothesis\n");
         }
         if (intentionChiSq > singleVarCrit){
             output.write("Because the chi-squared value for intention was > the critical, we can reject the null hypothesis\n");
         }
         else {
-            output.write("Because the chi-squared value for intention was NOT > the critical, we can reject the null hypothesis\n");
+            output.write("Because the chi-squared value for intention was NOT > the critical, we cannot reject the null hypothesis\n");
         }
         if (attitudeChiSq > singleVarCrit){
             output.write("Because the chi-squared value for attitude was > the critical, we can reject the null hypothesis\n");
         }
         else {
-            output.write("Because the chi-squared value for attitude was NOT > the critical, we can reject the null hypothesis\n");
+            output.write("Because the chi-squared value for attitude was NOT > the critical, we cannot reject the null hypothesis\n");
         }
         if (ownershipChiSq > singleVarCrit){
             output.write("Because the chi-squared value for ownership was > the critical, we can reject the null hypothesis\n");
         }
         else {
-            output.write("Because the chi-squared value for ownership was NOT > the critical, we can reject the null hypothesis\n");
+            output.write("Because the chi-squared value for ownership was NOT > the critical, we cannot reject the null hypothesis\n");
         }
         
         output.write("\n\n");
