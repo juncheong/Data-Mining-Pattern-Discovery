@@ -14,11 +14,21 @@ public class BehaviorScoreStats {
     double avgIntention;
     double avgAttitude;
     double avgOwnership;
+    
+    double alpha = 0.05;
+    int singleVarDf = 4;
+    double singleVarCrit = 9.49;
+
 
     int[] motivationSpread = {0, 0, 0, 0, 0};
     int[] intentionSpread = {0, 0, 0, 0, 0};
     int[] attitudeSpread = {0, 0, 0, 0, 0};
     int[] ownershipSpread = {0, 0, 0, 0, 0};
+    
+    double motivationChiSq = 0;
+    double intentionChiSq = 0;
+    double attitudeChiSq = 0;
+    double ownershipChiSq = 0;
     
     int[][] motInt = new int[3][3];
     int[][] motAtt = new int[3][3];
@@ -178,9 +188,49 @@ public class BehaviorScoreStats {
     }
     
     private void calculateChiSquared() {
+        calculateSingleVariableChiSq();
+        calculateDoubleVariableChi();
+    }
+    
+    private void calculateSingleVariableChiSq() {
+        double expected = ((double) numResponses) / motivationSpread.length;
+
+        for (int i = 0; i < motivationSpread.length; i++){
+            double numerator = (motivationSpread[i] - expected);
+            numerator = Math.pow(numerator, 2);
+            
+            motivationChiSq += numerator/expected;
+        }
+        
+        for (int i = 0; i < intentionSpread.length; i++){
+            double numerator = (intentionSpread[i] - expected);
+            numerator = Math.pow(numerator, 2);
+            
+            intentionChiSq += numerator/expected;
+        }
+        
+        for (int i = 0; i < attitudeSpread.length; i++){
+            double numerator = (attitudeSpread[i] - expected);
+            numerator = Math.pow(numerator, 2);
+            
+            attitudeChiSq += numerator/expected;
+        }
+        
+        for (int i = 0; i < ownershipSpread.length; i++){
+            double numerator = (ownershipSpread[i] - expected);
+            numerator = Math.pow(numerator, 2);
+            
+            ownershipChiSq += numerator/expected;
+        }
+        
+        
+    }
+
+    private void calculateDoubleVariableChi() {
         // TODO Auto-generated method stub
         
     }
+
 
     public int getNumResponses() {
         return numResponses;
@@ -202,8 +252,80 @@ public class BehaviorScoreStats {
         return avgOwnership;
     }
     
-    public void printChiSquaredTables(Writer output) throws IOException{
-        output.write("***** Tables used for Chi-Squared *****\n\n");
+    private void printChiSquared(Writer output) throws IOException{
+        
+        output.write("***** Chi-Squared for motivation, intention, attitude, ownership*****\n\n");
+        
+        output.write("Null hypothesis: The probability of someone getting a very low, low, medium, high, or very high score are equilikely\n");
+        output.write("Alt hypothesis: The probability of someone getting a very low, low, medium, high, or very high score are not equilikely\n");
+        output.write("\n");
+        output.write("5-way distribution of scores (very-low, lowm, medium, high, very-high)\n");
+        output.write("0 <= x < 0.2, 0.2 <= x < 0.4, 0.4 <= x < 0.6, 0.6 <= x < 0.8, 0.8 <= x < 1.0\n");
+        output.write("These divions were chosen arbitrarily. Should there be more time and/or data, the data can be divided further\n\n");
+
+        output.write("alpha: " + alpha + "\n");
+        output.write("degrees of freedom: " + singleVarDf + "\n");
+        output.write("Critical value: " + singleVarCrit + "\n\n");
+        
+        output.write("Motivation scores\n");
+        for (int i = 0; i < 5; i++){
+            output.write(motivationSpread[i] + " ");
+        }
+        output.write("\n");
+       
+        output.write("Intention scores\n");
+        for (int i = 0; i < 5; i++){
+            output.write(intentionSpread[i] + " ");
+        }
+        output.write("\n");
+        
+        output.write("Attitude scores\n");
+        for (int i = 0; i < 5; i++){
+            output.write(attitudeSpread[i] + " ");
+        }
+        output.write("\n");
+       
+        output.write("Ownership scores\n");
+        for (int i = 0; i < 5; i++){
+            output.write(ownershipSpread[i] + " ");
+        }
+        output.write("\n\n");
+        
+        output.write("Motivation Chi-Sq: " + motivationChiSq + "\n");
+        output.write("Intention Chi-Sq: " + intentionChiSq + "\n");
+        output.write("Attitude Chi-Sq: " + attitudeChiSq + "\n");
+        output.write("Ownership Chi-Sq: " + ownershipChiSq + "\n");
+        
+        output.write("\n");
+        
+        if (motivationChiSq > singleVarCrit){
+            output.write("Because the chi-squared value for motivation was > the critical, we can reject the null hypothesis\n");
+        }
+        else {
+            output.write("Because the chi-squared value for motivation was NOT > the critical, we can reject the null hypothesis\n");
+        }
+        if (intentionChiSq > singleVarCrit){
+            output.write("Because the chi-squared value for intention was > the critical, we can reject the null hypothesis\n");
+        }
+        else {
+            output.write("Because the chi-squared value for intention was NOT > the critical, we can reject the null hypothesis\n");
+        }
+        if (attitudeChiSq > singleVarCrit){
+            output.write("Because the chi-squared value for attitude was > the critical, we can reject the null hypothesis\n");
+        }
+        else {
+            output.write("Because the chi-squared value for attitude was NOT > the critical, we can reject the null hypothesis\n");
+        }
+        if (ownershipChiSq > singleVarCrit){
+            output.write("Because the chi-squared value for ownership was > the critical, we can reject the null hypothesis\n");
+        }
+        else {
+            output.write("Because the chi-squared value for ownership was NOT > the critical, we can reject the null hypothesis\n");
+        }
+        
+        output.write("\n\n");
+        
+        output.write("***** Tables used for 2x2 Chi-Squared *****\n\n");
         output.write("2x2 grids were chosen as anything larger resulted in every cell being very small\n");
         output.write("The two catagories (low and high) represent\n");
         output.write("0.0 <= low < 0.5\n");
@@ -333,34 +455,8 @@ public class BehaviorScoreStats {
         output.write("Average ownership: " + avgOwnership + "\n");
         
         output.write("\n");
-        output.write("5-way distribution of scores\n");
-        output.write("0 <= x < 0.2, 0.2 <= x < 0.4, 0.4 <= x < 0.6, 0.6 <= x < 0.8, 0.8 <= x < 1.0\n");
-        output.write("These divions were chosen arbitrarily. Should there be more time and/or data, the data can be divided further\n\n");
         
-        output.write("Motivation scores\n");
-        for (int i = 0; i < 5; i++){
-            output.write(motivationSpread[i] + " ");
-        }
-        output.write("\n");
-       
-        output.write("Intention scores\n");
-        for (int i = 0; i < 5; i++){
-            output.write(intentionSpread[i] + " ");
-        }
-        output.write("\n");
-        
-        output.write("Attitude scores\n");
-        for (int i = 0; i < 5; i++){
-            output.write(attitudeSpread[i] + " ");
-        }
-        output.write("\n");
-       
-        output.write("Ownership scores\n");
-        for (int i = 0; i < 5; i++){
-            output.write(ownershipSpread[i] + " ");
-        }
-        output.write("\n\n");
-        
-        printChiSquaredTables(output);
+        output.write("******* Chi-Squared *******\n\n");
+        printChiSquared(output);
     }
 }
