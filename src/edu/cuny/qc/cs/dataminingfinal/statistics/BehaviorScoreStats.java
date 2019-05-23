@@ -19,7 +19,7 @@ public class BehaviorScoreStats {
     double alpha = 0.05;
     
     int singleVarDf = 4;
-    double singleVarCrit = 9.49;
+    double critVal = 9.49;
     
     int doubleVarDf = 1;
     double doubleVarCrit = 3.84;
@@ -47,6 +47,13 @@ public class BehaviorScoreStats {
     double[][] intAttEx = new double[2][2];
     double[][] intOwnEx = new double[2][2];
     double[][] attOwnEx = new double[2][2];
+    
+    double motIntChiSq = 0;
+    double motAttChiSq = 0;
+    double motOwnChiSq = 0;
+    double intAttChiSq = 0;
+    double intOwnChiSq = 0;
+    double attOwnChiSq = 0;
     
     DecimalFormat df = new DecimalFormat("#.##");
     
@@ -273,10 +280,56 @@ public class BehaviorScoreStats {
     }
 
     private void calculateDoubleVariableChi() {
-        // TODO Auto-generated method stub
+        
+        for(int i = 0; i < 2; i++){
+            for (int j = 0; j < 2; j++){
+                double numerator = motInt[i][j] - motIntEx[i][j];
+                numerator = Math.pow(numerator, 2);
+                motIntChiSq += numerator / motIntEx[i][j];
+            }
+        }
+        
+        for(int i = 0; i < 2; i++){
+            for (int j = 0; j < 2; j++){
+                double numerator = motAtt[i][j] - motAttEx[i][j];
+                numerator = Math.pow(numerator, 2);
+                motAttChiSq += numerator / motAttEx[i][j];
+            }
+        }
+        
+        for(int i = 0; i < 2; i++){
+            for (int j = 0; j < 2; j++){
+                double numerator = motOwn[i][j] - motOwnEx[i][j];
+                numerator = Math.pow(numerator, 2);
+                motOwnChiSq += numerator / motOwnEx[i][j];
+            }
+        }
+        
+        for(int i = 0; i < 2; i++){
+            for (int j = 0; j < 2; j++){
+                double numerator = intAtt[i][j] - intAttEx[i][j];
+                numerator = Math.pow(numerator, 2);
+                intAttChiSq += numerator / intAttEx[i][j];
+            }
+        }
+        
+        for(int i = 0; i < 2; i++){
+            for (int j = 0; j < 2; j++){
+                double numerator = intOwn[i][j] - intOwnEx[i][j];
+                numerator = Math.pow(numerator, 2);
+                intOwnChiSq += numerator / intOwnEx[i][j];
+            }
+        }
+        
+        for(int i = 0; i < 2; i++){
+            for (int j = 0; j < 2; j++){
+                double numerator = attOwn[i][j] - attOwnEx[i][j];
+                numerator = Math.pow(numerator, 2);
+                attOwnChiSq += numerator / attOwnEx[i][j];
+            }
+        }
         
     }
-
 
     public int getNumResponses() {
         return numResponses;
@@ -311,7 +364,7 @@ public class BehaviorScoreStats {
 
         output.write("Alpha: " + alpha + "\n");
         output.write("Degrees of freedom: " + singleVarDf + "\n");
-        output.write("Critical value: " + singleVarCrit + "\n");
+        output.write("Critical value: " + critVal + "\n");
         output.write("Expected value used: 27/5 = 5.4 \n\n");
         
         output.write("Motivation scores\n");
@@ -339,41 +392,110 @@ public class BehaviorScoreStats {
         output.write("\n\n");
         
         output.write("Motivation Chi-Sq: " + motivationChiSq + "\n");
+        output.write("Motivation p-value: 0.323247\n\n");
+        
         output.write("Intention Chi-Sq: " + intentionChiSq + "\n");
+        output.write("Intention p-value: 0.001721\n\n");
+        
         output.write("Attitude Chi-Sq: " + attitudeChiSq + "\n");
+        output.write("Attitude p-value: 0.000049\n\n");
+        
         output.write("Ownership Chi-Sq: " + ownershipChiSq + "\n");
+        output.write("Ownership p-value: 0.000322\n\n");
         
         output.write("\n");
         
-        if (motivationChiSq > singleVarCrit){
-            output.write("Because the chi-squared value for motivation was > the critical, we can reject the null hypothesis\n");
+        if (motivationChiSq > critVal){
+            output.write("Because the chi-squared value for motivation was > the critical (p-value < alpha), we can reject the null hypothesis\n");
         }
         else {
-            output.write("Because the chi-squared value for motivation was NOT > the critical, we cannot reject the null hypothesis\n");
+            output.write("Because the chi-squared value for motivation was NOT > the critical (p-value was NOT < alpha), we cannot reject the null hypothesis\n");
         }
-        if (intentionChiSq > singleVarCrit){
-            output.write("Because the chi-squared value for intention was > the critical, we can reject the null hypothesis\n");
-        }
-        else {
-            output.write("Because the chi-squared value for intention was NOT > the critical, we cannot reject the null hypothesis\n");
-        }
-        if (attitudeChiSq > singleVarCrit){
-            output.write("Because the chi-squared value for attitude was > the critical, we can reject the null hypothesis\n");
+        if (intentionChiSq > critVal){
+            output.write("Because the chi-squared value for intention was > the critical (p-value < alpha), we can reject the null hypothesis\n");
         }
         else {
-            output.write("Because the chi-squared value for attitude was NOT > the critical, we cannot reject the null hypothesis\n");
+            output.write("Because the chi-squared value for intention was NOT > the critical (p-value was NOT < alpha), we cannot reject the null hypothesis\n");
         }
-        if (ownershipChiSq > singleVarCrit){
-            output.write("Because the chi-squared value for ownership was > the critical, we can reject the null hypothesis\n");
+        if (attitudeChiSq > critVal){
+            output.write("Because the chi-squared value for attitude was > the critical (p-value < alpha), we can reject the null hypothesis\n");
         }
         else {
-            output.write("Because the chi-squared value for ownership was NOT > the critical, we cannot reject the null hypothesis\n");
+            output.write("Because the chi-squared value for attitude was NOT > the critical (p-value was NOT < alpha), we cannot reject the null hypothesis\n");
+        }
+        if (ownershipChiSq > critVal){
+            output.write("Because the chi-squared value for ownership was > the critical (p-value < alpha), we can reject the null hypothesis\n");
+        }
+        else {
+            output.write("Because the chi-squared value for ownership was NOT > the critical (p-value was NOT < alpha), we cannot reject the null hypothesis\n");
         }
 
         printTwoVariableTables(output);
         
         printTwoVariableExpectations(output);
         
+        output.write("\n\n");
+        
+        output.write("Alpha: 0.05\n");
+        output.write("Degree of Freedom: 1\n\n");
+        
+        output.write("Null hypothesis: the two variables are independent\n");
+        output.write("Alt hypothesis: the two variables are not independent\n\n");
+        
+        output.write("Chi-Squared value for motivation x intention: " + motIntChiSq + "\n");
+        output.write("Motivation x Intention p-value: 0.5346\n\n");
+        
+        output.write("Chi-Squared value for motivation x attitude: " + motAttChiSq + "\n");
+        output.write("Motivation x attitude p-value: 0.1887\n\n");
+        
+        output.write("Chi-Squared value for motivation x ownership: " + motOwnChiSq + "\n");
+        output.write("Motivation x ownership p-value: 0.8695\n\n");
+        
+        output.write("Chi-Squared value for intention x attitude: " + intAttChiSq + "\n");
+        output.write("Intention x attitude p-value: 0.3261\n\n");
+        
+        output.write("Chi-Squared value for intention x ownership: " + intOwnChiSq + "\n");
+        output.write("Intention x ownership p-value: 0.4321\n\n");
+        
+        output.write("Chi-Squared value for attitude x ownership: " + attOwnChiSq + "\n");
+        output.write("Attitude x ownership p-value: 0.6776\n\n");
+        
+        if (motIntChiSq > critVal){
+            output.write("Because the chi-squared value for motivation x intention was > the critical (p-value < alpha), we can reject the null hypothesis\n");
+        }
+        else {
+            output.write("Because the chi-squared value for motivation x intention was NOT > the critical (p-value was NOT < alpha), we cannot reject the null hypothesis\n");
+        }
+        if (motAttChiSq > critVal){
+            output.write("Because the chi-squared value for motivation x attitude was > the critical (p-value < alpha), we can reject the null hypothesis\n");
+        }
+        else {
+            output.write("Because the chi-squared value for motivation x attitude was NOT > the critical (p-value was NOT < alpha), we cannot reject the null hypothesis\n");
+        }
+        if (motOwnChiSq > critVal){
+            output.write("Because the chi-squared value for motivation x ownership was > the critical (p-value < alpha), we can reject the null hypothesis\n");
+        }
+        else {
+            output.write("Because the chi-squared value for motivation x ownership was NOT > the critical (p-value was NOT < alpha), we cannot reject the null hypothesis\n");
+        }
+        if (intAttChiSq > critVal){
+            output.write("Because the chi-squared value for intention x attitude was > the critical (p-value < alpha), we can reject the null hypothesis\n");
+        }
+        else {
+            output.write("Because the chi-squared value for intention x attitude was NOT > the critical (p-value was NOT < alpha), we cannot reject the null hypothesis\n");
+        }
+        if (intOwnChiSq > critVal){
+            output.write("Because the chi-squared value for intention x ownership was > the critical (p-value < alpha), we can reject the null hypothesis\n");
+        }
+        else {
+            output.write("Because the chi-squared value for intention x ownership was NOT > the critical (p-value was NOT < alpha), we cannot reject the null hypothesis\n");
+        }
+        if (attOwnChiSq > critVal){
+            output.write("Because the chi-squared value for attitude x ownership was > the critical (p-value < alpha), we can reject the null hypothesis\n");
+        }
+        else {
+            output.write("Because the chi-squared value for attitude x ownership was NOT > the critical (p-value was NOT < alpha), we cannot reject the null hypothesis\n");
+        }
 
     }
     
@@ -383,7 +505,7 @@ public class BehaviorScoreStats {
         
         output.write("***** Tables used for 2x2 Chi-Squared *****\n\n");
         output.write("2x2 grids were chosen as anything larger resulted in every cell being very small\n");
-        output.write("The two catagories (low and high) represent\n");
+        output.write("The two categories (low and high) represent\n");
         output.write("0.0 <= low < 0.5\n");
         output.write("0.5 <= high < 1.0\n\n");
         
@@ -610,6 +732,7 @@ public class BehaviorScoreStats {
             }
             output.write("\n");
         }
+
     }
  
     public void printResults(Writer output) throws IOException {

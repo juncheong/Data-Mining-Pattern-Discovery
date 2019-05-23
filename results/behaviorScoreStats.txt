@@ -32,20 +32,24 @@ Ownership scores
 0 1 4 11 11 
 
 Motivation Chi-Sq: 4.666666666666667
+Motivation p-value: 0.323247
 Intention Chi-Sq: 17.259259259259256
+Intention p-value: 0.001721
 Attitude Chi-Sq: 25.037037037037035
+Attitude p-value: 0.000049
 Ownership Chi-Sq: 20.962962962962962
+Ownership p-value: 0.000322
 
-Because the chi-squared value for motivation was NOT > the critical, we cannot reject the null hypothesis
-Because the chi-squared value for intention was > the critical, we can reject the null hypothesis
-Because the chi-squared value for attitude was > the critical, we can reject the null hypothesis
-Because the chi-squared value for ownership was > the critical, we can reject the null hypothesis
+Because the chi-squared value for motivation was NOT > the critical (p-value was NOT < alpha), we cannot reject the null hypothesis
+Because the chi-squared value for intention was > the critical (p-value < alpha), we can reject the null hypothesis
+Because the chi-squared value for attitude was > the critical (p-value < alpha), we can reject the null hypothesis
+Because the chi-squared value for ownership was > the critical (p-value < alpha), we can reject the null hypothesis
 
 
 ***** Tables used for 2x2 Chi-Squared *****
 
 2x2 grids were chosen as anything larger resulted in every cell being very small
-The two catagories (low and high) represent
+The two categories (low and high) represent
 0.0 <= low < 0.5
 0.5 <= high < 1.0
 
@@ -110,7 +114,7 @@ total |  2   |  25  |  27  |
 
 
 
-***** Tables of expectation (Rounded to nearest hundredth for presentation *****
+***** Tables of expectation (Rounded to nearest hundredth for presentation) *****
 
       Motivation x Intention
 
@@ -158,3 +162,30 @@ high  |  5.56   |  19.44  |
       ---------------------
 low   |  0.15   |  1.85   | 
 high  |  1.85   |  23.15  | 
+
+
+Alpha: 0.05
+Degree of Freedom: 1
+
+Null hypothesis: the two variables are independent
+Alt hypothesis: the two variables are not independent
+
+Chi-Squared value for motivation x intention: 0.38571428571428545
+Motivation x Intention p-value: 0.5346
+Chi-Squared value for motivation x attitude: 1.728
+Motivation x attitude p-value: 0.1887
+Chi-Squared value for motivation x ownership: 0.02700000000000001
+Motivation x ownership p-value: 0.8695
+Chi-Squared value for intention x attitude: 0.9642857142857144
+Intention x attitude p-value: 0.3261
+Chi-Squared value for intention x ownership: 0.617142857142857
+Intention x ownership p-value: 0.4321
+Chi-Squared value for attitude x ownership: 0.17280000000000004
+Attitude x ownership p-value: 0.6776
+
+Because the chi-squared value for motivation x intention was NOT > the critical (p-value was NOT < alpha), we cannot reject the null hypothesis
+Because the chi-squared value for motivation x attitude was NOT > the critical (p-value was NOT < alpha), we cannot reject the null hypothesis
+Because the chi-squared value for motivation x ownership was NOT > the critical (p-value was NOT < alpha), we cannot reject the null hypothesis
+Because the chi-squared value for intention x attitude was NOT > the critical (p-value was NOT < alpha), we cannot reject the null hypothesis
+Because the chi-squared value for intention x ownership was NOT > the critical (p-value was NOT < alpha), we cannot reject the null hypothesis
+Because the chi-squared value for attitude x ownership was NOT > the critical (p-value was NOT < alpha), we cannot reject the null hypothesis
