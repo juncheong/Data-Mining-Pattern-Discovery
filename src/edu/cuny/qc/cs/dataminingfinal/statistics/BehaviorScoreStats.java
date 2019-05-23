@@ -2,6 +2,7 @@ package edu.cuny.qc.cs.dataminingfinal.statistics;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import edu.cuny.qc.cs.dataminingfinal.models.BehaviorScore;
@@ -16,8 +17,12 @@ public class BehaviorScoreStats {
     double avgOwnership;
     
     double alpha = 0.05;
+    
     int singleVarDf = 4;
     double singleVarCrit = 9.49;
+    
+    int doubleVarDf = 1;
+    double doubleVarCrit = 3.84;
 
     int[] motivationSpread = {0, 0, 0, 0, 0};
     int[] intentionSpread = {0, 0, 0, 0, 0};
@@ -35,6 +40,15 @@ public class BehaviorScoreStats {
     int[][] intAtt = new int[3][3];
     int[][] intOwn = new int[3][3];
     int[][] attOwn = new int[3][3];
+    
+    double[][] motIntEx = new double[2][2];
+    double[][] motAttEx = new double[2][2];
+    double[][] motOwnEx = new double[2][2];
+    double[][] intAttEx = new double[2][2];
+    double[][] intOwnEx = new double[2][2];
+    double[][] attOwnEx = new double[2][2];
+    
+    DecimalFormat df = new DecimalFormat("#.##");
     
     public BehaviorScoreStats(ArrayList<BehaviorScore> behaviorScores){
         this.behaviorScores = behaviorScores;
@@ -81,11 +95,44 @@ public class BehaviorScoreStats {
         }
         
         calculateMargins();
+        calculateExpectation();
 
         avgMotivation = motivationSum / numResponses;
         avgIntention = intentionSum / numResponses;
         avgAttitude = attitudeSum / numResponses;
         avgOwnership = ownershipSum / numResponses;
+    }
+
+    private void calculateExpectation() {
+        motIntEx[0][0] = (motInt[0][2] * motInt[2][0]) / (double) numResponses;
+        motIntEx[0][1] = (motInt[0][2] * motInt[2][1]) / (double) numResponses;
+        motIntEx[1][0] = (motInt[1][2] * motInt[2][0]) / (double) numResponses;
+        motIntEx[1][1] = (motInt[1][2] * motInt[2][1]) / (double) numResponses;
+        
+        motAttEx[0][0] = (motAtt[0][2] * motAtt[2][0]) / (double) numResponses;
+        motAttEx[0][1] = (motAtt[0][2] * motAtt[2][1]) / (double) numResponses;
+        motAttEx[1][0] = (motAtt[1][2] * motAtt[2][0]) / (double) numResponses;
+        motAttEx[1][1] = (motAtt[1][2] * motAtt[2][1]) / (double) numResponses;
+        
+        motOwnEx[0][0] = (motOwn[0][2] * motOwn[2][0]) / (double) numResponses;
+        motOwnEx[0][1] = (motOwn[0][2] * motOwn[2][1]) / (double) numResponses;
+        motOwnEx[1][0] = (motOwn[1][2] * motOwn[2][0]) / (double) numResponses;
+        motOwnEx[1][1] = (motOwn[1][2] * motOwn[2][1]) / (double) numResponses;
+        
+        intAttEx[0][0] = (intAtt[0][2] * intAtt[2][0]) / (double) numResponses;
+        intAttEx[0][1] = (intAtt[0][2] * intAtt[2][1]) / (double) numResponses;
+        intAttEx[1][0] = (intAtt[1][2] * intAtt[2][0]) / (double) numResponses;
+        intAttEx[1][1] = (intAtt[1][2] * intAtt[2][1]) / (double) numResponses;
+        
+        intOwnEx[0][0] = (intOwn[0][2] * intOwn[2][0]) / (double) numResponses;
+        intOwnEx[0][1] = (intOwn[0][2] * intOwn[2][1]) / (double) numResponses;
+        intOwnEx[1][0] = (intOwn[1][2] * intOwn[2][0]) / (double) numResponses;
+        intOwnEx[1][1] = (intOwn[1][2] * intOwn[2][1]) / (double) numResponses;
+        
+        attOwnEx[0][0] = (attOwn[0][2] * attOwn[2][0]) / (double) numResponses;
+        attOwnEx[0][1] = (attOwn[0][2] * attOwn[2][1]) / (double) numResponses;
+        attOwnEx[1][0] = (attOwn[1][2] * attOwn[2][0]) / (double) numResponses;
+        attOwnEx[1][1] = (attOwn[1][2] * attOwn[2][1]) / (double) numResponses;
     }
 
     private void addToSpread(double motivation, double intention, double attitude, double ownership) {
@@ -322,6 +369,15 @@ public class BehaviorScoreStats {
         else {
             output.write("Because the chi-squared value for ownership was NOT > the critical, we cannot reject the null hypothesis\n");
         }
+
+        printTwoVariableTables(output);
+        
+        printTwoVariableExpectations(output);
+        
+
+    }
+    
+    private void printTwoVariableTables(Writer output) throws IOException{
         
         output.write("\n\n");
         
@@ -442,7 +498,118 @@ public class BehaviorScoreStats {
             }
             output.write("\n");
         }
+    }
+    
+    private void printTwoVariableExpectations(Writer output) throws IOException {
+        output.write("\n\n\n");
         
+        output.write("***** Tables of expectation (Rounded to nearest hundredth for presentation) *****\n\n");
+        
+        output.write("      Motivation x Intention\n\n");
+        output.write("         low    |  high\n");
+        output.write("      ---------------------\n");
+        
+        for (int i = 0; i < motIntEx.length; i++){
+            if (i == 0) output.write("low   | ");
+            else if (i == 1) output.write("high  | ");
+            
+            for (int j = 0; j < motIntEx.length; j++){
+                output.write(" " + df.format(motIntEx[i][j]) + "  ");
+                if (motIntEx[i][j] < 10) output.write(" ");
+                output.write("| ");
+            }
+            output.write("\n");
+        }
+        
+        output.write("\n\n");
+        
+        output.write("      Motivation x Attitude\n\n");
+        output.write("         low    |  high\n");
+        output.write("      ---------------------\n");
+        
+        for (int i = 0; i < motAttEx.length; i++){
+            if (i == 0) output.write("low   | ");
+            else if (i == 1) output.write("high  | ");
+            
+            for (int j = 0; j < motAttEx.length; j++){
+                output.write(" " +  df.format(motAttEx[i][j]) + "  ");
+                if (motAttEx[i][j] < 10) output.write(" ");
+                output.write("| ");
+            }
+            output.write("\n");
+        }
+        
+        output.write("\n\n");
+        
+        output.write("      Motivation x Ownership\n\n");
+        output.write("         low    |  high\n");
+        output.write("      ---------------------\n");
+        
+        for (int i = 0; i < motOwnEx.length; i++){
+            if (i == 0) output.write("low   | ");
+            else if (i == 1) output.write("high  | ");
+            
+            for (int j = 0; j < motOwnEx.length; j++){
+                output.write(" " +  df.format(motOwnEx[i][j]) + "  ");
+                if (motOwnEx[i][j] < 10) output.write(" ");
+                output.write("| ");
+            }
+            output.write("\n");
+        }
+        
+        output.write("\n\n");
+        
+        output.write("      Intention x Attitude\n\n");
+        output.write("         low    |  high\n");
+        output.write("      ---------------------\n");
+        
+        for (int i = 0; i < intAttEx.length; i++){
+            if (i == 0) output.write("low   | ");
+            else if (i == 1) output.write("high  | ");
+            
+            for (int j = 0; j < intAttEx.length; j++){
+                output.write(" " +  df.format(intAttEx[i][j]) + "  ");
+                if (intAttEx[i][j] < 10) output.write(" ");
+                output.write("| ");
+            }
+            output.write("\n");
+        }
+        
+        output.write("\n\n");
+        
+        output.write("      Intention x Ownership\n\n");
+        output.write("         low    |  high\n");
+        output.write("      ---------------------\n");
+        
+        for (int i = 0; i < intOwnEx.length; i++){
+            if (i == 0) output.write("low   | ");
+            else if (i == 1) output.write("high  | ");
+            
+            for (int j = 0; j < intOwnEx.length; j++){
+                output.write(" " +  df.format(intOwnEx[i][j]) + "  ");
+                if (intOwnEx[i][j] < 10) output.write(" ");
+                output.write("| ");
+            }
+            output.write("\n");
+        }
+        
+        output.write("\n\n");
+        
+        output.write("      Attitude x Ownership\n\n");
+        output.write("         low    |  high\n");
+        output.write("      ---------------------\n");
+        
+        for (int i = 0; i < attOwnEx.length; i++){
+            if (i == 0) output.write("low   | ");
+            else if (i == 1) output.write("high  | ");
+            
+            for (int j = 0; j < attOwnEx.length; j++){
+                output.write(" " +  df.format(attOwnEx[i][j]) + "  ");
+                if (attOwnEx[i][j] < 10) output.write(" ");
+                output.write("| ");
+            }
+            output.write("\n");
+        }
     }
  
     public void printResults(Writer output) throws IOException {

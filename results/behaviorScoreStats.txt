@@ -107,3 +107,54 @@ low   |  0   |  2   |  2   |
 high  |  2   |  23  |  25  | 
       ----------------------
 total |  2   |  25  |  27  | 
+
+
+
+***** Tables of expectation (Rounded to nearest hundredth for presentation *****
+
+      Motivation x Intention
+
+         low    |  high
+      ---------------------
+low   |  3.33   |  2.67   | 
+high  |  11.67  |  9.33   | 
+
+
+      Motivation x Attitude
+
+         low    |  high
+      ---------------------
+low   |  1.11   |  0.89   | 
+high  |  13.89  |  11.11  | 
+
+
+      Motivation x Ownership
+
+         low    |  high
+      ---------------------
+low   |  1.11   |  0.89   | 
+high  |  13.89  |  11.11  | 
+
+
+      Intention x Attitude
+
+         low    |  high
+      ---------------------
+low   |  0.44   |  1.56   | 
+high  |  5.56   |  19.44  | 
+
+
+      Intention x Ownership
+
+         low    |  high
+      ---------------------
+low   |  0.44   |  1.56   | 
+high  |  5.56   |  19.44  | 
+
+
+      Attitude x Ownership
+
+         low    |  high
+      ---------------------
+low   |  0.15   |  1.85   | 
+high  |  1.85   |  23.15  | 
